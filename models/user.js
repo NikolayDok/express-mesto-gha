@@ -1,19 +1,19 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    default: "Жак-Ив Кусто",
-    minlength: [2, "Минимальная длина строки - 2 символа"],
-    maxlength: [30, "Максимальная длина строки - 30 символов"],
+    default: 'Жак-Ив Кусто',
+    minlength: [2, 'Минимальная длина строки - 2 символа'],
+    maxlength: [30, 'Максимальная длина строки - 30 символов'],
   },
   about: {
     type: String,
     required: true,
-    default: "Исследователь океанов",
-    minlength: [2, "Минимальная длина строки - 2 символа"],
-    maxlength: [30, "Максимальная длина строки - 30 символов"],
+    default: 'Исследователь океанов',
+    minlength: [2, 'Минимальная длина строки - 2 символа'],
+    maxlength: [30, 'Максимальная длина строки - 30 символов'],
   },
   avatar: {
     type: String,
@@ -21,4 +21,4 @@ const userSchema = new mongoose.Schema({
   },
 });
 
-module.exports = mongoose.model("user", userSchema);
+module.exports = mongoose.model('user', userSchema);

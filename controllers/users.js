@@ -1,6 +1,6 @@
-const User = require("../models/user");
-const NotFoundError = require("../errors/NotFoundError");
-const BadRequestError = require("../errors/BadRequestError");
+const User = require('../models/user');
+const NotFoundError = require('../errors/NotFoundError');
+const BadRequestError = require('../errors/BadRequestError');
 
 const createUser = (req, res, next) => {
   const { name, about, avatar } = req.body;
@@ -15,8 +15,8 @@ const createUser = (req, res, next) => {
       });
     })
     .catch((err) => {
-      if (err.name === "ValidationError") {
-        next(new BadRequestError("Переданы некорректные данные"));
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные'));
       } else {
         next(err);
       }
@@ -26,7 +26,7 @@ const createUser = (req, res, next) => {
 const getUser = (req, res, next) => {
   User.findById(req.params.userId)
     .orFail(() => {
-      throw new NotFoundError("Пользователь не найден");
+      throw new NotFoundError('Пользователь не найден');
     })
     .then((user) => {
       res.status(200).send(user);
@@ -55,14 +55,14 @@ const updateProfile = (req, res, next) => {
     { new: true, runValidators: true }
   )
     .orFail(() => {
-      throw new NotFoundError("Пользователь не найден");
+      throw new NotFoundError('Пользователь не найден');
     })
     .then((userData) => {
       res.send(userData);
     })
     .catch((err) => {
-      if (err.name === "CastError") {
-        next(new BadRequestError("Переданы некорректные данные"));
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Переданы некорректные данные'));
       } else {
         next(err);
       }
@@ -77,14 +77,14 @@ const updateAvatar = (req, res, next) => {
     runValidators: true,
   })
     .orFail(() => {
-      throw new NotFoundError("Пользователь не найден");
+      throw new NotFoundError('Пользователь не найден');
     })
     .then((userAvatar) => {
       res.send(userAvatar);
     })
     .catch((err) => {
-      if (err.name === "CastError") {
-        next(new BadRequestError("Переданы некорректные данные"));
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Переданы некорректные данные'));
       } else {
         next(err);
       }

@@ -1,22 +1,22 @@
-const express = require("express");
-const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
-const handleErrorDefault = require("./middlewares/handleErrorDefault");
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const handleErrorDefault = require('./middlewares/handleErrorDefault');
 
-const router = require("./routes/index");
+const router = require('./routes/index');
 
 const { PORT = 3000 } = process.env;
 
 const app = express();
 
-mongoose.connect("mongodb://127.0.0.1:27017/mestodb");
+mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use((req, res, next) => {
   req.user = {
-    _id: "6444357f98456e1951b6b1bb",
+    _id: '6444357f98456e1951b6b1bb',
   };
   next();
 });

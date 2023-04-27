@@ -1,6 +1,6 @@
-const Card = require("../models/card");
-const { NotFoundError } = require("../errors/NotFoundError");
-const BadRequestError = require("../errors/BadRequestError");
+const Card = require('../models/card');
+const { NotFoundError } = require('../errors/NotFoundError');
+const BadRequestError = require('../errors/BadRequestError');
 
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
@@ -11,8 +11,8 @@ const createCard = (req, res, next) => {
       res.status(201).send(card);
     })
     .catch((err) => {
-      if (err.name === "ValidationError") {
-        next(new BadRequestError("Переданы некорректные данные"));
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Переданы некорректные данные'));
       } else {
         next(err);
       }
@@ -25,8 +25,8 @@ const getCards = (req, res, next) => {
       res.send(cards);
     })
     .catch((err) => {
-      if (err.name === "CastError") {
-        next(new BadRequestError("Переданы некорректные данные"));
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Переданы некорректные данные'));
       } else {
         next(err);
       }
@@ -36,7 +36,7 @@ const getCards = (req, res, next) => {
 const deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
     .orFail(() => {
-      throw new NotFoundError("Карточка не найдена");
+      throw new NotFoundError('Карточка не найдена');
     })
     .then((card) => {
       res.send(card);
@@ -53,14 +53,14 @@ const likeCard = (req, res, next) => {
     { new: true }
   )
     .orFail(() => {
-      throw new NotFoundError("Карточка не найдена");
+      throw new NotFoundError('Карточка не найдена');
     })
     .then((card) => {
       res.send(card);
     })
     .catch((err) => {
-      if (err.name === "CastError") {
-        next(new BadRequestError("Переданы некорректные данные"));
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Переданы некорректные данные'));
       } else {
         next(err);
       }
@@ -74,14 +74,14 @@ const dislikeCard = (req, res, next) => {
     { new: true }
   )
     .orFail(() => {
-      throw new NotFoundError("Карточка не найдена");
+      throw new NotFoundError('Карточка не найдена');
     })
     .then((card) => {
       res.send(card);
     })
     .catch((err) => {
-      if (err.name === "CastError") {
-        next(new BadRequestError("Переданы некорректные данные"));
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Переданы некорректные данные'));
       } else {
         next(err);
       }
