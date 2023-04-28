@@ -17,4 +17,4 @@
 
 ## Ссылка на репозиторий проекта
 
-nikolaydok.github.io/express-mesto-gha/
+https://github.com/nikolaydok.github.io/express-mesto-gha/
