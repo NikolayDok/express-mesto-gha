@@ -1,5 +1,5 @@
 const Card = require('../models/card');
-const { NotFoundError } = require('../errors/NotFoundError');
+const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
 
 const createCard = (req, res, next) => {
@@ -52,13 +52,10 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-    // .orFail(() => {
-    //   throw new NotFoundError('Карточка не найдена');
-    // })
+    .orFail(() => {
+      throw new NotFoundError('Карточка не найдена');
+    })
     .then((card) => {
-      if (!card) {
-        throw new NotFoundError('Данная карточка не найдена');
-      }
       res.status(200).send(card);
     })
     .catch((err) => {
