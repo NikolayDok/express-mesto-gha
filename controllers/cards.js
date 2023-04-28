@@ -1,3 +1,6 @@
+const REQUEST_SUCCESSFUL_CODE = 200;
+const CREATED_SUCCESSFUL_CODE = 201;
+
 const Card = require('../models/card');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
@@ -8,7 +11,7 @@ const createCard = (req, res, next) => {
 
   Card.create({ name, link, owner })
     .then((card) => {
-      res.status(201).send(card);
+      res.status(CREATED_SUCCESSFUL_CODE).send(card);
     })
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -21,6 +24,7 @@ const createCard = (req, res, next) => {
 
 const getCards = (req, res, next) => {
   Card.find({})
+    .populate('owner')
     .then((cards) => {
       res.send(cards);
     })
@@ -56,11 +60,12 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
+    .populate('owner')
     .orFail(() => {
       throw new NotFoundError('Карточка не найдена');
     })
     .then((card) => {
-      res.status(200).send(card);
+      res.status(REQUEST_SUCCESSFUL_CODE).send(card);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
