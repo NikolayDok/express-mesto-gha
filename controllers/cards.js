@@ -52,11 +52,15 @@ const likeCard = (req, res, next) => {
     { $addToSet: { likes: req.user._id } },
     { new: true },
   )
-    .orFail(() => {
-      throw new NotFoundError('Карточка не найдена');
-    })
+    // .orFail(() => {
+    //   throw new NotFoundError('Карточка не найдена');
+    // })
     .then((card) => {
-      res.send(card);
+      if (card) {
+        res.status(200).send(card);
+      } else {
+        throw new NotFoundError('Данная карточка не найдена');
+      }
     })
     .catch((err) => {
       if (err.name === 'CastError') {
