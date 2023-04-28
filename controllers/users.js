@@ -32,7 +32,11 @@ const getUser = (req, res, next) => {
       res.status(200).send(user);
     })
     .catch((err) => {
-      next(err);
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Переданы некорректные данные'));
+      } else {
+        next(err);
+      }
     });
 };
 
