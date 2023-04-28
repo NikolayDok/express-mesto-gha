@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 
 app.use(router);
 
-app.all((req, res, next) => {
+app.all('*', (req, res, next) => {
   next(new NotFoundError('Неверный адрес'));
 });
 
