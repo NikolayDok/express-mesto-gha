@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const NotFoundError = require('./errors/NotFoundError');
 const handleErrorDefault = require('./middlewares/handleErrorDefault');
 
 const router = require('./routes/index');
@@ -22,6 +23,10 @@ app.use((req, res, next) => {
 });
 
 app.use(router);
+
+app.all('*', (req, res, next) => {
+  next(new NotFoundError('Неверный адрес'));
+});
 
 app.use(handleErrorDefault);
 
