@@ -8,9 +8,9 @@ const {
   dislikeCard,
 } = require('../controllers/cards');
 
-cardsRoutes.get('/', getCards);
-
 cardsRoutes.post('/', createCard);
+
+cardsRoutes.get('/', getCards);
 
 cardsRoutes.delete('/:cardId', deleteCard);
 

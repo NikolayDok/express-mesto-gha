@@ -42,7 +42,11 @@ const deleteCard = (req, res, next) => {
       res.send(card);
     })
     .catch((err) => {
-      next(err);
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Переданы некорректные данные'));
+      } else {
+        next(err);
+      }
     });
 };
 
