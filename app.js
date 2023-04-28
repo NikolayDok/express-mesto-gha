@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const NotFoundError = require('./errors/NotFoundError');
 const handleErrorDefault = require('./middlewares/handleErrorDefault');
 
 const router = require('./routes/index');
