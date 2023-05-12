@@ -8,8 +8,7 @@ const { createUser } = require('../controllers/users');
 const { login } = require('../controllers/users');
 const auth = require('../middlewares/auth');
 
-const regExUrl =
-  /^https?:\/\/(?:www\.)?[-a-zA-Z0-9:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/;
+const regExUrl = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/;
 
 router.post(
   '/signup',

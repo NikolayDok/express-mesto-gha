@@ -8,7 +8,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
-// const BadRequestError = require('../errors/ConflictError');
+const ConflictError = require('../errors/ConflictError');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const login = (req, res, next) => {
@@ -59,9 +59,21 @@ const getCurrentUser = (req, res, next) => {
 };
 
 const createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const {
+    name,
+    about,
+    avatar,
+    email,
+    password
+  } = req.body;
 
-  User.create({ name, about, avatar, email, password });
+  User.create({
+    name,
+    about,
+    avatar,
+    email,
+    password
+  });
   // bcrypt
   //   .hash(password, 10)
   //   .then((user) => {
@@ -90,15 +102,14 @@ const createUser = (req, res, next) => {
       email,
       password: hash,
     })
-      .then((user) =>
+      .then((user) => {
         res.status(CREATED_SUCCESSFUL_CODE).send({
           _id: user._id,
           name: user.name,
           about: user.about,
           avatar: user.avatar,
           email: user.email,
-        }),
-      )
+        });})
       .catch((err) => {
         if (err.code === DUPLICATE_KEY_CODE) {
           next(new ConflictError('Пользователь с таким email уже существует'));
