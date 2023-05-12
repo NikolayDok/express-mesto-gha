@@ -18,13 +18,13 @@ const login = (req, res, next) => {
     .select('+password')
     .then((user) => {
       if (!user) {
-        throw new UnauthorizedError('Пароль или email неверные');
+        throw new UnauthorizedError('Пароль или email неверные1');
       }
-      bcrypt
+      return bcrypt
         .compare(password, user.password)
         .then((isEqual) => {
           if (!isEqual) {
-            throw new UnauthorizedError('Пароль или email неверные');
+            throw new UnauthorizedError(`Пароль или email неверные2 ${user}`);
           }
           const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
             expiresIn: '7d',
