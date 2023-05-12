@@ -64,7 +64,7 @@ const createUser = (req, res, next) => {
     about,
     avatar,
     email,
-    password
+    password,
   } = req.body;
 
   User.create({
@@ -72,28 +72,8 @@ const createUser = (req, res, next) => {
     about,
     avatar,
     email,
-    password
+    password,
   });
-  // bcrypt
-  //   .hash(password, 10)
-  //   .then((user) => {
-  //     res.status(CREATED_SUCCESSFUL_CODE).send({
-  //       _id: user._id,
-  //       name: user.name,
-  //       about: user.about,
-  //       avatar: user.avatar,
-  //       email: user.email,
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     if (err.code === DUPLICATE_KEY_CODE) {
-  //       next(new ConflictError('Пользователь с таким email уже существует'));
-  //     } else if (err.name === 'ValidationError') {
-  //       next(new BadRequestError('Переданы некорректные данные'));
-  //     } else {
-  //       next(err);
-  //     }
-  //   });
   bcrypt.hash(password, 10).then((hash) => {
     User.create({
       name,
@@ -109,7 +89,8 @@ const createUser = (req, res, next) => {
           about: user.about,
           avatar: user.avatar,
           email: user.email,
-        });})
+        });
+      })
       .catch((err) => {
         if (err.code === DUPLICATE_KEY_CODE) {
           next(new ConflictError('Пользователь с таким email уже существует'));
