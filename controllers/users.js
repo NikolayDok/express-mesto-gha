@@ -21,10 +21,10 @@ const login = (req, res, next) => {
         throw new UnauthorizedError('Пароль или email неверные1');
       }
       return bcrypt
-        .compare(password, user.password)
-        .then((isEqual) => {
-          if (!isEqual) {
-            throw new UnauthorizedError(`Пароль или email неверные2 ${user}`);
+      .compare(password, user.password)
+        .then((matched) => {
+          if (!matched) {
+            throw new UnauthorizedError(`Пароль или email неверные2 ${password}`);
           }
           const token = jwt.sign({ _id: user._id }, 'some-secret-key', {
             expiresIn: '7d',
@@ -67,13 +67,6 @@ const createUser = (req, res, next) => {
     password,
   } = req.body;
 
-  User.create({
-    name,
-    about,
-    avatar,
-    email,
-    password,
-  });
   bcrypt.hash(password, 10).then((hash) => {
     User.create({
       name,
