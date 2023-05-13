@@ -62,17 +62,17 @@ const deleteCard = (req, res, next) => {
     })
     .then((card) => {
       if (`${card.owner}` !== req.user._id) {
-        throw new ForbiddenError('Удалять можно только свою карточку');
+        throw new ForbiddenError('Нельзя удалить чужую карточку');
       }
       Card.findByIdAndRemove(req.params.cardId)
         .orFail(() => {
           throw new NotFoundError('Карточка не найдена');
         })
-        .then((card) => {
-          res.send(card);
+        .then(() => {
+          res.send({ message: 'ок' });
         })
         .catch((err) => {
-          next(err)
+          next(err);
         });
     })
     .catch((err) => {
@@ -83,7 +83,6 @@ const deleteCard = (req, res, next) => {
       }
     });
 };
-
 
 const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
