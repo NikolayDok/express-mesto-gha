@@ -4,6 +4,7 @@ const CREATED_SUCCESSFUL_CODE = 201;
 const Card = require('../models/card');
 const NotFoundError = require('../errors/NotFoundError');
 const BadRequestError = require('../errors/BadRequestError');
+const ForbiddenError = require('../errors/ForbiddenError');
 
 const createCard = (req, res, next) => {
   const { name, link } = req.body;
@@ -37,13 +38,42 @@ const getCards = (req, res, next) => {
     });
 };
 
+// const deleteCard = (req, res, next) => {
+//   Card.findByIdAndRemove(req.params.cardId)
+//     .orFail(() => {
+//       throw new NotFoundError('Карточка не найдена');
+//     })
+//     .then((card) => {
+//       res.send(card);
+//     })
+//     .catch((err) => {
+//       if (err.name === 'CastError') {
+//         next(new BadRequestError('Переданы некорректные данные'));
+//       } else {
+//         next(err);
+//       }
+//     });
+// };
+
 const deleteCard = (req, res, next) => {
-  Card.findByIdAndRemove(req.params.cardId)
+  Card.findById(req.params.cardId)
     .orFail(() => {
       throw new NotFoundError('Карточка не найдена');
     })
     .then((card) => {
-      res.send(card);
+      if (`${card.owner}` !== req.user._id) {
+        throw new ForbiddenError('Удалять можно только свою карточку');
+      }
+      Card.findByIdAndRemove(req.params.cardId)
+        .orFail(() => {
+          throw new NotFoundError('Карточка не найдена');
+        })
+        .then((card) => {
+          res.send(card);
+        })
+        .catch((err) => {
+          next(err)
+        });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -53,6 +83,7 @@ const deleteCard = (req, res, next) => {
       }
     });
 };
+
 
 const likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(

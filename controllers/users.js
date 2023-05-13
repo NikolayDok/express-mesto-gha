@@ -21,7 +21,7 @@ const login = (req, res, next) => {
         throw new UnauthorizedError('Пароль или email неверные1');
       }
       return bcrypt
-      .compare(password, user.password)
+        .compare(password, user.password)
         .then((matched) => {
           if (!matched) {
             throw new UnauthorizedError(`Пароль или email неверные2 ${password}`);
