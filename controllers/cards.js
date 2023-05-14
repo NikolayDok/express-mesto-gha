@@ -38,23 +38,6 @@ const getCards = (req, res, next) => {
     });
 };
 
-// const deleteCard = (req, res, next) => {
-//   Card.findByIdAndRemove(req.params.cardId)
-//     .orFail(() => {
-//       throw new NotFoundError('Карточка не найдена');
-//     })
-//     .then((card) => {
-//       res.send(card);
-//     })
-//     .catch((err) => {
-//       if (err.name === 'CastError') {
-//         next(new BadRequestError('Переданы некорректные данные'));
-//       } else {
-//         next(err);
-//       }
-//     });
-// };
-
 const deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
     .orFail(() => {
